@@ -1,4 +1,3 @@
-// // /* global $:true*/
 var $banner=(function(){
   var $carousel=$('<div class="slider" id="slider">'
                   +'<div class="slide"><img src="img/b5.png" alt=""></div>'
@@ -64,7 +63,7 @@ var $banner=(function(){
           }
           if (flag) {
             clearInterval(obj.timer);
-            callback && callback(); //如果回调函数存在，就调用回调函数
+            callback && callback();
           }
         }, 30);
       } 
@@ -75,7 +74,7 @@ var $banner=(function(){
         animate($right, {
           opacity: 0.6
         })
-        clearInterval(timer); //图片停止滚动
+        clearInterval(timer);
       })
       $box.mouseout(function () {
         animate($left, {
@@ -84,7 +83,7 @@ var $banner=(function(){
         animate($right, {
           opacity: 0
         })
-        timer = setInterval(next, 3000); //图片开始接着滚动
+        timer = setInterval(next, 3000);
       })
       $right.click(next);
       $left.click(prev);
