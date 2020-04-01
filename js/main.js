@@ -1,6 +1,6 @@
+// // /* global $:true*/
 var $banner=(function(){
-  var $carousel=$('<div>'
-                  +'<div class="slider" id="slider">'
+  var $carousel=$('<div class="slider" id="slider">'
                   +'<div class="slide"><img src="img/b5.png" alt=""></div>'
                   +'<div class="slide"><img src="img/b1.png" alt=""></div>'
                   +'<div class="slide"><img src="img/b2.png" alt=""></div>'
@@ -18,55 +18,56 @@ var $banner=(function(){
                   +'<li>4</li>'
                   +'<li>5</li>'
                   +'</ul>'
-                  +'</div>'
                   );
-  var cfg={container:"box"};
-  var $slider = $carousel.find('#slider');
-  var $left = $carousel.find('#left');
-  var $right = $carousel.find('#right');
-  var $oNavlist =$carousel.find("#navs").children();
+ 
   var index = 1;
   var timer;
   var isMoving = false;
-  function getStyle(obj, attr){
-  	return obj.css(attr);
-  }
-  function animate(obj, json, callback) {
-  	clearInterval(obj.timer);
-  	obj.timer = setInterval(function () {
-  		var flag = true;
-  		for (var attr in json) {
-  			(function (attr) {
-  				if (attr == "opacity") {
-  					var now = parseInt(getStyle(obj, attr) * 100);
-  					var dest = json[attr] * 100;
-  				} else {
-  					var now = parseInt(getStyle(obj, attr));
-  					var dest = json[attr];
-  				}
-  				var speed = (dest - now) / 6;
-  				speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
-  				if (now != dest) {
-  					flag = false;
-  					if (attr == "opacity") {
-              obj.css(attr,(now + speed) / 100);
-  					} else {
-              obj.css(attr, now + speed + "px");
-  					}
-  				}
-  			})(attr);
-  		}
-  		if (flag) {
-  			clearInterval(obj.timer);
-  			callback && callback();
-  		}
-  	}, 30);
-  }
+  
   function show(conf){
       var $box=$('#'+conf.container);
       $box.append($carousel);
       $.extend(cfg,conf);
-      console.log($oNavlist.length); 
+      var cfg={container:"box"};
+      var $slider = $('#slider');
+      var $left = $('#left');
+      var $right = $('#right');
+      var $oNavlist =$("#navs").children();
+      console.log($oNavlist.length);
+      function getStyle(obj, attr){
+        return obj.css(attr);
+      }
+      function animate(obj, json, callback) {
+        clearInterval(obj.timer);
+        obj.timer = setInterval(function () {
+          var flag = true;
+          for (var attr in json) {
+            (function (attr) {
+              if (attr == "opacity") {
+                var now = parseInt(getStyle(obj, attr) * 100);
+                var dest = json[attr] * 100;
+              } else {
+                var now = parseInt(getStyle(obj, attr));
+                var dest = json[attr];
+              }
+              var speed = (dest - now) / 6;
+              speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+              if (now != dest) {
+                flag = false;
+                if (attr == "opacity") {
+                  obj.css(attr,(now + speed) / 100);
+                } else {
+                  obj.css(attr, now + speed + "px");
+                }
+              }
+            })(attr);
+          }
+          if (flag) {
+            clearInterval(obj.timer);
+            callback && callback(); //如果回调函数存在，就调用回调函数
+          }
+        }, 30);
+      } 
       $box.mouseover(function () {
         animate($left, {
           opacity: 0.6
@@ -74,7 +75,7 @@ var $banner=(function(){
         animate($right, {
           opacity: 0.6
         })
-        clearInterval(timer);
+        clearInterval(timer); //图片停止滚动
       })
       $box.mouseout(function () {
         animate($left, {
@@ -83,7 +84,7 @@ var $banner=(function(){
         animate($right, {
           opacity: 0
         })
-        timer = setInterval(next, 3000);
+        timer = setInterval(next, 3000); //图片开始接着滚动
       })
       $right.click(next);
       $left.click(prev);
@@ -146,7 +147,7 @@ var $banner=(function(){
           $oNavlist[index - 1].className = "active";
         }
       }
-      timer = setInterval(next, 3000);
+      timer = setInterval(next, 5000);
   }
   return{
       show:show
